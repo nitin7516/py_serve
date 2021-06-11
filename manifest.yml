@@ -1,4 +1,4 @@
 applications:
   - name: py_serve
     random-route: true
-    memory: 128M
+    memory: 32M
