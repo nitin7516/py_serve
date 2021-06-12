@@ -26,10 +26,7 @@ def stream():
             yield 'data: {}\n\n'.format(get_message())
     return Response(eventStream(), mimetype="text/event-stream")
 
-PORT = int(os.getenv('VCAP_APP_PORT', '8000'))
 
-Handler = http.server.SimpleHTTPRequestHandler
-
-httpd = socketserver.TCPServer(("", PORT), Handler)
-print("serving at port", PORT)
-httpd.serve_forever()
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
