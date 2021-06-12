@@ -1,6 +1,9 @@
 from math import sqrt
 from time import sleep
 from flask import Flask, render_template
+import os
+import http.server
+import socketserver
 
 app = Flask(__name__)
 
@@ -17,5 +20,10 @@ def stream():
 
     return app.response_class(generate(), mimetype="text/plain")
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)
+PORT = int(os.getenv('VCAP_APP_PORT', '8000'))
+
+Handler = http.server.SimpleHTTPRequestHandler
+
+httpd = socketserver.TCPServer(("", PORT), Handler)
+print("serving at port", PORT)
+httpd.serve_forever()
