@@ -1,32 +1,19 @@
-from math import sqrt
-from time import sleep
-import flask
+# from time import time, sleep
+# while True:
+#     sleep(60 - time() % 60)
 import os
 import http.server
 import socketserver
 
-app = flask.Flask(__name__)
+PORT = int(os.getenv('VCAP_APP_PORT', '8000'))
 
+Handler = http.server.SimpleHTTPRequestHandler
 
-def get_message():
-    '''this could be any function that blocks until data is ready'''
-    time.sleep(1.0)
-    s = time.ctime(time.time())
-    return s
-
-@app.route('/')
-def root():
-    return render_template('index.html')
-
-@app.route('/stream')
-def stream():
-    def eventStream():
-        while True:
-            # wait for source data to be available, then push it
-            yield 'data: {}\n\n'.format(get_message())
-    return Response(eventStream(), mimetype="text/event-stream")
-
-
-if __name__ == '__main__':
-    app.debug = True
-    app.run()
+httpd = socketserver.TCPServer(("", PORT), Handler)
+from time import sleep 
+for i in range(6):
+    msg = "Hello World!"
+   sleep(2) 
+    print(msg)
+print("serving at port", PORT)
+httpd.serve_forever()
