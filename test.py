@@ -1,19 +1,21 @@
-# from time import time, sleep
-# while True:
-#     sleep(60 - time() % 60)
-import os
-import http.server
-import socketserver
+from math import sqrt
+from time import sleep
+from flask import Flask, render_template
 
-PORT = int(os.getenv('VCAP_APP_PORT', '8000'))
+app = Flask(__name__)
 
-Handler = http.server.SimpleHTTPRequestHandler
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-httpd = socketserver.TCPServer(("", PORT), Handler)
-from time import sleep 
-for i in range(6):
-    msg = "Hello World!"
-#    sleep(2) 
-    print(msg)
-print("serving at port", PORT)
-httpd.serve_forever()
+@app.route("/stream")
+def stream():
+    def generate():
+        for i in range(500):
+            yield "{}\n".format(sqrt(i))
+            sleep(1)
+
+    return app.response_class(generate(), mimetype="text/plain")
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000, debug=True)
