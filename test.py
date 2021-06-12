@@ -13,9 +13,9 @@ def get_message():
     '''this could be any function that blocks until data is ready'''
     #time.sleep(1.0)
     #s = time.ctime(time.time())
-     for i in range(10):
-       msg = "Hello World!"
-       sleep(2)
+    for i in range(10):
+      msg = "Hello World!"
+      sleep(2)
     return msg
 
 @app.route('/')
