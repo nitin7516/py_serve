@@ -1,24 +1,31 @@
 from math import sqrt
 from time import sleep
 from flask import Flask, render_template
+from flask_sse import sse
 import os
 import http.server
 import socketserver
 
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
 
-@app.route("/stream")
+def get_message():
+    '''this could be any function that blocks until data is ready'''
+    time.sleep(1.0)
+    s = time.ctime(time.time())
+    return s
+
+@app.route('/')
+def root():
+    return render_template('index.html')
+
+@app.route('/stream')
 def stream():
-    def generate():
-        for i in range(500):
-            yield "{}\n".format(sqrt(i))
-            sleep(1)
-
-    return app.response_class(generate(), mimetype="text/plain")
+    def eventStream():
+        while True:
+            # wait for source data to be available, then push it
+            yield 'data: {}\n\n'.format(get_message())
+    return Response(eventStream(), mimetype="text/event-stream")
 
 PORT = int(os.getenv('VCAP_APP_PORT', '8000'))
 
