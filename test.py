@@ -5,7 +5,7 @@ import os
 import http.server
 import socketserver
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 
 def get_message():
