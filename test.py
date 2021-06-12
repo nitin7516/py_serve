@@ -1,7 +1,6 @@
 from math import sqrt
 from time import sleep
-from flask import Flask, render_template
-from flask_sse import sse
+import flask
 import os
 import http.server
 import socketserver
