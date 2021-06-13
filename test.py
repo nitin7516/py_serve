@@ -11,8 +11,11 @@ cf_port = os.getenv("PORT")
 
 def get_message():
     '''this could be any function that blocks until data is ready'''
-    time.sleep(2.0)
-    s = time.ctime(time.time())
+    #time.sleep(2.0)
+    for i in range(10):
+     msg = "Hello World!"
+     time.sleep(2.0)
+    s = msg #time.ctime(time.time())
           
     return s
 
