@@ -14,8 +14,9 @@ def get_message():
     #time.sleep(1.0)
     #s = time.ctime(time.time())
     for i in range(10):
+      time.sleep(1.0)
       msg = "Hello World!"
-      time.sleep(2)
+      
     return msg
 
 @app.route('/')
