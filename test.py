@@ -11,11 +11,9 @@ cf_port = os.getenv("PORT")
 
 def get_message():
     '''this could be any function that blocks until data is ready'''
-    #time.sleep(2.0)
-    for i in range(10):
-     msg = "Hello World!"
-     time.sleep(2.0)
-    s = msg #time.ctime(time.time())
+    time.sleep(3.0)
+    
+    s = time.ctime(time.time())
           
     return s
 
@@ -28,7 +26,7 @@ def stream():
     def eventStream():
         while True:
             # wait for source data to be available, then push it
-            yield 'data: {}\n\n'.format(get_message())
+            yield 'We Mean GREEN: {}\n\n'.format(get_message())
     return Response(eventStream(), mimetype="text/event-stream")
 
 if __name__ == '__main__':
